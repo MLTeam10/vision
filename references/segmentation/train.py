@@ -77,7 +77,7 @@ def train_one_epoch(model, criterion, optimizer, data_loader, lr_scheduler, devi
     model.train()
     metric_logger = utils.MetricLogger(delimiter="  ")
     metric_logger.add_meter('lr', utils.SmoothedValue(window_size=1, fmt='{value}'))
-    header = 'Epoch: [{}]'.format(epoch)
+    header = 'TrainSeg - Epoch: [{}]'.format(epoch)
     for image, target in metric_logger.log_every(data_loader, print_freq, header):
         image, target = image.to(device), target.to(device)
         output = model(image)
