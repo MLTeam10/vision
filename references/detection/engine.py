@@ -49,14 +49,22 @@ def train_one_epoch_engine(model, optimizer, data_loader, device, epoch, print_f
         losses.backward()
         optimizer.step()
 
-        writer.add_scalar('Loss/train', loss_value, epoch)
-
         if lr_scheduler is not None:
             lr_scheduler.step()
 
         metric_logger.update(loss=losses_reduced, **loss_dict_reduced)
         metric_logger.update(lr=optimizer.param_groups[0]["lr"])
 
+    writer.add_scalar('Loss/train', metric_logger['loss'], epoch)
+    writer.add_scalar('LossClassifier/train', metric_logger['loss_classifier'], epoch)
+    writer.add_scalar('LossBoxReg/train', metric_logger['loss_box_reg'], epoch)
+    writer.add_scalar('LossMask/train', metric_logger['loss_mask'], epoch)
+    writer.add_scalar('LossObjectness/train', metric_logger['loss_objectness'], epoch)
+    writer.add_scalar('LossRpnBoxReg/train', metric_logger['loss_rpn_box_reg'], epoch)
+    writer.add_scalar('LR/train', metric_logger['lr'], epoch)
+
+    #writer.add_scalar('Loss/train_reduced', loss_value, epoch)
+    #metric lr: 0.005000  loss: 0.4384 (0.5724)  loss_classifier: 0.0875 (0.0764)  loss_box_reg: 0.0841 (0.0803)  loss_mask: 0.2138 (0.2994)  loss_objectness: 0.0207 (0.0520)  loss_rpn_box_reg: 0.0038 (0.0642)
 
     print("metric" , metric_logger)
     return metric_logger
