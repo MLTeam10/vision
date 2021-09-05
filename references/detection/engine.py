@@ -9,6 +9,10 @@ from coco_utils import get_coco_api_from_dataset
 from coco_eval import CocoEvaluator
 import utils
 
+from torch.utils.tensorboard import SummaryWriter
+log_dir = "logs"
+writer = SummaryWriter(log_dir)
+
 
 def train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq):
     model.train()
@@ -46,6 +50,8 @@ def train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq):
         losses.backward()
         optimizer.step()
 
+        writer.add_scalar('Loss/train', loss_value, epoch)
+
         if lr_scheduler is not None:
             lr_scheduler.step()
 
@@ -53,8 +59,12 @@ def train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq):
         metric_logger.update(lr=optimizer.param_groups[0]["lr"])
 
 
-    print(metric_logger)
+    print("metric" , metric_logger)
     return metric_logger
+
+
+def close_writer():
+    writer.close()
 
 
 def _get_iou_types(model):
