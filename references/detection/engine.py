@@ -55,13 +55,13 @@ def train_one_epoch_engine(model, optimizer, data_loader, device, epoch, print_f
         metric_logger.update(loss=losses_reduced, **loss_dict_reduced)
         metric_logger.update(lr=optimizer.param_groups[0]["lr"])
 
-    writer.add_scalar('Loss/train', float(str(metric_logger.meters['loss'])), epoch)
-    writer.add_scalar('LossClassifier/train', float(str(metric_logger.meters['loss_classifier'])), epoch)
-    writer.add_scalar('LossBoxReg/train', float(str(metric_logger.meters['loss_box_reg'])), epoch)
-    writer.add_scalar('LossMask/train', float(str(metric_logger.meters['loss_mask'])), epoch)
-    writer.add_scalar('LossObjectness/train', float(str(metric_logger.meters['loss_objectness'])), epoch)
-    writer.add_scalar('LossRpnBoxReg/train', float(str(metric_logger.meters['loss_rpn_box_reg'])), epoch)
-    writer.add_scalar('LR/train', float(str(metric_logger.meters['lr'])), epoch)
+    writer.add_scalar('Loss/train', float(str(metric_logger.meters['loss']).split(" ")[0]), epoch)
+    writer.add_scalar('LossClassifier/train', float(str(metric_logger.meters['loss_classifier']).split(" ")[0]), epoch)
+    writer.add_scalar('LossBoxReg/train', float(str(metric_logger.meters['loss_box_reg']).split(" ")[0]), epoch)
+    writer.add_scalar('LossMask/train', float(str(metric_logger.meters['loss_mask']).split(" ")[0]), epoch)
+    writer.add_scalar('LossObjectness/train', float(str(metric_logger.meters['loss_objectness']).split(" ")[0]), epoch)
+    writer.add_scalar('LossRpnBoxReg/train', float(str(metric_logger.meters['loss_rpn_box_reg']).split(" ")[0]), epoch)
+    writer.add_scalar('LR/train', float(str(metric_logger.meters['lr']).split(" ")[0]), epoch)
 
 
     #writer.add_scalar('Loss/train_reduced', loss_value, epoch)
